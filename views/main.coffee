@@ -47,6 +47,8 @@ String::tokens = ->
     "while": "WHILE"
     do: "DO"
 	"call" : "CALL"
+	"begin" : "BEGIN"
+    "end" : "END"
   
   # Make a token object.
   make = (type, value) ->
@@ -155,6 +157,13 @@ parse = (input) ->
         type: "CALL"
         value: lookahead.value
       match "ID"
+	else if lookahead and lookahead.type is "BEGIN"
+      match "BEGIN"
+      result = [statement()]
+      while lookahead and lookahead.type is ";"
+        match ";"
+        result.push statement()
+      match "END"
     else if lookahead and lookahead.type is "P"
       match "P"
       right = expression()
