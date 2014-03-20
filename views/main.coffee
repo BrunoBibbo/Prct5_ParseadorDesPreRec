@@ -46,6 +46,7 @@ String::tokens = ->
     then: "THEN"
     "while": "WHILE"
     do: "DO"
+	"call" : "CALL"
   
   # Make a token object.
   make = (type, value) ->
@@ -106,6 +107,7 @@ String::tokens = ->
     # comparison operator
     else if m = tokens.COMPARISONOPERATOR.bexec(this)
       result.push make("COMPARISON", getTok())
+	  
     # single-character operator
     else if m = tokens.ONECHAROPERATORS.bexec(this)
       result.push make(m[0], getTok())
@@ -147,6 +149,12 @@ parse = (input) ->
         type: "="
         left: left
         right: right
+	else if lookahead and lookahead.type is "CALL"
+      match "CALL"
+      result =
+        type: "CALL"
+        value: lookahead.value
+      match "ID"
     else if lookahead and lookahead.type is "P"
       match "P"
       right = expression()
