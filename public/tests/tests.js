@@ -31,4 +31,9 @@ var assert = chai.assert;
         assert.equal('[{"type":"VAR","value":"a"},{"type":"VAR","value":"b"},[{"type":"IF","left":{"type":">","left":{"type":"ID","value":"a"},"right":{"type":"NUM","value":0}},"right":{"type":"WHILE","left":{"type":">=","left":{"type":"ID","value":"b"},"right":{"type":"NUM","value":5}},"right":{"type":"=","left":{"type":"ID","value":"b"},"right":{"type":"-","left":{"type":"ID","value":"b"},"right":{"type":"ID","value":"a"}}}}}]]', JSON.stringify(parse(original)));
      });
 
+    test('Prueba 7 - error', function() {
+        var input = "a = 2 + (5.";
+        chai.expect(function () { window.parse(input) }).to.throw("Syntax Error. Expected ) found '.' near '.'");
+     });
+
  });
